@@ -3,7 +3,7 @@ import os
 import random
 import sys
 
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, CallbackContext
 from telebot.credentials import bot_token, URL
 
 # Enabling logging
@@ -13,10 +13,10 @@ logger = logging.getLogger()
 
 # Getting mode, so we could define run function for local and Heroku setup
 mode = os.getenv("MODE")
-#TOKEN = os.getenv("TOKEN")
+# TOKEN = os.getenv("TOKEN")
 
 TOKEN = bot_token
-#mode = mode
+# mode = mode
 
 if mode == "dev":
     def run(updater):
@@ -36,6 +36,14 @@ else:
     sys.exit(1)
 
 
+def callback_minute(context: CallbackContext):
+    #context.bot.send_message(chat_id='@test_channel_5',
+    #                         text='One message every minute')
+    context.bot.send_photo(chat_id='@test_channel_5',
+                           photo='https://memepedia.ru/wp-content/uploads/2020/03/ty-chevo-nadelal-1.jpg',
+                           caption='Кот Захар раз в полчаса')
+
+
 def start_handler(update, context):
     # Creating a handler-function for /start command
     logger.info("User {} started bot".format(update.effective_user["id"]))
@@ -53,6 +61,8 @@ if __name__ == '__main__':
     logger.info("Starting bot")
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
+    j = updater.job_queue
+    j.run_repeating(callback_minute, interval=1800, first=0)
 
     dp.add_handler(CommandHandler("start", start_handler))
     dp.add_handler(CommandHandler("random", random_handler))

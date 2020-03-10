@@ -1,0 +1,1 @@
+web: python ordicynbot_3:app

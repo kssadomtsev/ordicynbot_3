@@ -1,1 +1,1 @@
-web: python ordicynbot_3:app
+web: python ordicynbot_3

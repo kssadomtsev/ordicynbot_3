@@ -4,6 +4,7 @@ import random
 import sys
 
 from telegram.ext import Updater, CommandHandler
+from telebot.credentials import bot_token, URL
 
 # Enabling logging
 logging.basicConfig(level=logging.INFO,
@@ -12,19 +13,24 @@ logger = logging.getLogger()
 
 # Getting mode, so we could define run function for local and Heroku setup
 mode = os.getenv("MODE")
-TOKEN = os.getenv("TOKEN")
+#TOKEN = os.getenv("TOKEN")
+
+TOKEN = bot_token
+#mode = mode
+
 if mode == "dev":
     def run(updater):
+        logger.info("Dev mode select")
         updater.start_polling()
 elif mode == "prod":
     def run(updater):
+        logger.info("Prod mode select")
         PORT = int(os.environ.get("PORT", "8443"))
-        HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
         # Code from https://github.com/python-telegram-bot/python-telegram-bot/wiki/Webhooks#heroku
         updater.start_webhook(listen="0.0.0.0",
                               port=PORT,
                               url_path=TOKEN)
-        updater.bot.set_webhook("https://{}.herokuapp.com/{}".format(HEROKU_APP_NAME, TOKEN))
+        updater.bot.set_webhook("{URL}{HOOK}".format(URL=URL, HOOK=TOKEN))
 else:
     logger.error("No MODE specified!")
     sys.exit(1)
@@ -45,7 +51,7 @@ def random_handler(bot, update):
 
 if __name__ == '__main__':
     logger.info("Starting bot")
-    updater = Updater(TOKEN)
+    updater = Updater(TOKEN, use_context=True)
 
     updater.dispatcher.add_handler(CommandHandler("start", start_handler))
     updater.dispatcher.add_handler(CommandHandler("random", random_handler))

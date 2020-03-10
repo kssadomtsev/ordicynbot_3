@@ -36,13 +36,13 @@ else:
     sys.exit(1)
 
 
-def start_handler(bot, update):
+def start_handler(update, context):
     # Creating a handler-function for /start command
     logger.info("User {} started bot".format(update.effective_user["id"]))
     update.message.reply_text("Hello from Python!\nPress /random to get random number")
 
 
-def random_handler(bot, update):
+def random_handler(update, context):
     # Creating a handler-function for /random command
     number = random.randint(0, 10)
     logger.info("User {} randomed number {}".format(update.effective_user["id"], number))
@@ -52,8 +52,9 @@ def random_handler(bot, update):
 if __name__ == '__main__':
     logger.info("Starting bot")
     updater = Updater(TOKEN, use_context=True)
+    dp = updater.dispatcher
 
-    updater.dispatcher.add_handler(CommandHandler("start", start_handler))
-    updater.dispatcher.add_handler(CommandHandler("random", random_handler))
+    dp.add_handler(CommandHandler("start", start_handler))
+    dp.add_handler(CommandHandler("random", random_handler))
 
     run(updater)

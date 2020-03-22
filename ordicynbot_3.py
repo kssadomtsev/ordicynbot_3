@@ -25,7 +25,7 @@ if mode == "dev":
 elif mode == "prod":
     def run(updater):
         logger.info("Prod mode select")
-        PORT = int(os.environ.get("PORT", "8443"))
+        PORT = int(os.environ.get("PORT", "8001"))
         # Code from https://github.com/python-telegram-bot/python-telegram-bot/wiki/Webhooks#heroku
         updater.start_webhook(listen="0.0.0.0",
                               port=PORT,

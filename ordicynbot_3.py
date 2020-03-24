@@ -7,7 +7,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext
 from telebot.credentials import bot_token, URL
 
 # Enabling logging
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger()
 

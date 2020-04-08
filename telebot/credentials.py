@@ -1,4 +1,3 @@
-bot_token = "1048782875:AAHOdmVf5labBm8kY8Wi4LPFFTKcppXquS4"
 #cmc_token = "93030306-8118-46ab-81a9-0088c046a284"
 bot_user_name = "OrdicynBot"
 URL = "https://oneonyx.ru:8443/"

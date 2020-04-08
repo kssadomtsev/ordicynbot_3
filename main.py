@@ -4,7 +4,7 @@ import random
 import sys
 
 from telegram.ext import Updater, CommandHandler, CallbackContext
-from telebot.credentials import bot_token, URL
+from telebot.credentials import URL
 
 # Enabling logging
 logging.basicConfig(level=logging.DEBUG,
@@ -13,9 +13,15 @@ logger = logging.getLogger()
 
 # Getting mode, so we could define run function for local and Heroku setup
 mode = os.getenv("MODE")
-# TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("TOKEN")
+REQUEST_KWARGS = {
+    'proxy_url': 'socks5://195.181.215.234:8080',
+    'urllib3_proxy_kwargs': {
+        'username': 'anon',
+        'password': 'Durf2OqgQ=',
+    }
+}
 
-TOKEN = bot_token
 # mode = mode
 
 if mode == "dev":
@@ -37,7 +43,7 @@ else:
 
 
 def callback_minute(context: CallbackContext):
-    #context.bot.send_message(chat_id='@test_channel_5',
+    # context.bot.send_message(chat_id='@test_channel_5',
     #                         text='One message every minute')
     context.bot.send_photo(chat_id='@test_channel_5',
                            photo='https://memepedia.ru/wp-content/uploads/2020/03/ty-chevo-nadelal-1.jpg',
@@ -59,7 +65,10 @@ def random_handler(update, context):
 
 if __name__ == '__main__':
     logger.info("Starting bot")
-    updater = Updater(TOKEN, use_context=True)
+    if mode == "dev":
+        updater = Updater(TOKEN, use_context=True, request_kwargs=REQUEST_KWARGS)
+    elif mode == "prod":
+        updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
     j = updater.job_queue
     j.run_repeating(callback_minute, interval=1800, first=0)

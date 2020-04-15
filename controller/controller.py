@@ -5,13 +5,13 @@ import sys
 
 from telegram.ext import CommandHandler, CallbackContext
 from telebot.credentials import URL
+from utils.utils import get_logger
+
+logger = get_logger()
+
 
 mode = os.getenv("MODE")
 TOKEN = os.getenv("TOKEN")
-
-logging.basicConfig(level=logging.DEBUG,
-                    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger()
 
 if mode == "dev":
     def run(updater):

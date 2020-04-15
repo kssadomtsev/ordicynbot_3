@@ -4,11 +4,9 @@ import os
 
 from telegram.ext import Updater
 from controller.controller import Controller
+from utils.utils import get_logger
 
-# Enabling logging
-logging.basicConfig(level=logging.DEBUG,
-                    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger()
+logger = get_logger()
 
 # Getting mode, so we could define run function for local and Heroku setup
 

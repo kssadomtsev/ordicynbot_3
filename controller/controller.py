@@ -53,7 +53,7 @@ class Controller:
     def start_handler(self, update, context):
         # Creating a handler-function for /start command
         logger.info("User {} started bot".format(update.effective_user["id"]))
-        update.message.reply_text("Hello from Python!\nPress /random to get random number")
+        update.message.reply_text("Тебя приветствует предложка-бот канала https://t.me/savedmemess \nPress /random to get random number")
 
     def random_handler(self, update, context):
         # Creating a handler-function for /random command
@@ -62,8 +62,8 @@ class Controller:
         update.message.reply_text("Random number: {}".format(number))
 
     def __process_handlers(self):
-        j = self.updater.job_queue
-        j.run_repeating(self.callback_minute, interval=1800, first=0)
+        # j = self.updater.job_queue
+        #j.run_repeating(self.callback_minute, interval=1800, first=0)
 
         self.dispatcher.add_handler(CommandHandler("start", self.start_handler))
         self.dispatcher.add_handler(CommandHandler("random", self.random_handler))
